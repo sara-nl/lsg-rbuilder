@@ -1,8 +1,10 @@
 #!/bin/bash
-#PBS -lwalltime=0:30:00
+#PBS -lwalltime=0:30:00,nodes=1:ppn=2
 
 # This script downloads OpenBLAS and R-3.1.1, and compiles
 # and installs R linked against an optimized version of OpenBLAS.
+# 2014-08-21, L. Voort <lykle.voort@surfsara.nl>
+#   - added flags to use 2 cpu cores for compiling
 # 2014-08-21, L. Voort <lykle.voort@surfsara.nl>
 #   - reduced walltime to fit in express queue jobs
 # 2014-08-21, L. Voort <lykle.voort@surfsara.nl>
@@ -33,8 +35,8 @@ cd r-build
 # build and install openblas
 git clone git://github.com/xianyi/OpenBLAS
 cd OpenBLAS
-make TARGET=BULLDOZER FC=gfortran PREFIX=$PREFIX NO_AFFINITY=1
-make TARGET=BULLDOZER FC=gfortran PREFIX=$PREFIX NO_AFFINITY=1 install
+make -j 2 TARGET=BULLDOZER FC=gfortran PREFIX=$PREFIX NO_AFFINITY=1
+make -j 2 TARGET=BULLDOZER FC=gfortran PREFIX=$PREFIX NO_AFFINITY=1 install
 cd ..
 
 # build and install R-3.1.1
@@ -48,7 +50,7 @@ FC=gfortran CFLAGS="-I$PREFIX/include"                            \
   --with-blas="-lopenblas" --with-lapack="-lopenblas"             \
   --with-x=no --with-readline=no
 
-make
+make -j 2
 make install
 cd ..
 
