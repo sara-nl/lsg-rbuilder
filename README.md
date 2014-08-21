@@ -27,8 +27,8 @@ Compiling OpenBLAS and R
 This directory contains a script which downloads and compiles OpenBLAS
 and R. It uses the most recent versions available at the time of writing:
 
-# OpenBLAS version 0.2.10 (July 16, 2014)
-# R version 3.1.1
+* OpenBLAS version 0.2.10 (July 16, 2014)
+* R version 3.1.1
 
 The script should *not* be run on the user interface machines. Instead,
 run the script as a grid job:
