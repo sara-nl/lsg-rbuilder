@@ -1,13 +1,26 @@
 #!/bin/bash
-#PBS -lwalltime=2:00:00
+#PBS -lwalltime=0:30:00
 
 # This script downloads OpenBLAS and R-3.1.1, and compiles
 # and installs R linked against an optimized version of OpenBLAS.
+# 2014-08-21, L. Voort <lykle.voort@surfsara.nl>
+#   - reduced walltime to fit in express queue jobs
 # 2014-08-21, L. Voort <lykle.voort@surfsara.nl>
 #   - removed readline dependency
 # 2014-08-20, L. Voort <lykle.voort@surfsara.nl>
 #   - set NO_AFFINITY=1
 # 2014-08-19, L. Voort <lykle.voort@surfsara.nl>
+
+# check if this script was started from a job; if not, report
+# an error message and quit
+if [ -z "$PBS_O_WORKDIR" ]; then
+  echo "*** error: this script cannot outside a batch job."
+  echo ""
+  echo "Submit this script as a job using"
+  echo ""
+  echo "  qsub $0"
+  exit
+fi
 
 # start in the user's home directory
 PREFIX=$HOME/opt/R-3.1.1
