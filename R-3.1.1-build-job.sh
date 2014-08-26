@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -lwalltime=1:00:00,nodes=1:ppn=1
+#PBS -lwalltime=2:00:00,nodes=1:ppn=1
 
 # This script downloads OpenBLAS and R-3.1.1, and compiles
 # and installs R linked against an optimized version of OpenBLAS.
