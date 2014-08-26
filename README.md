@@ -40,4 +40,20 @@ This will download OpenBLAS and R, and install everything in
   $HOME/opt/R-3.1.1
 
 
- 
+Running Benchmarks
+------------------
+
+In the 'benchmarks' directory, there are a few R-scrips for running benchmarks mentioned on the sites below. To run the benchmarks,  first, downloade the benchmark tests from sites below. Then submit the jobs using
+
+  qsub -q express  mass-bench-dist.sh
+
+and
+
+  qsub -q express  mass-bench-openblas.sh
+
+
+
+References:
+
+1. http://r.research.att.com/benchmarks/
+2. http://www.cybaea.net/Blogs/Faster-R-through-better-BLAS.html
