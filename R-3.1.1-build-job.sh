@@ -1,8 +1,10 @@
 #!/bin/bash
-#PBS -lwalltime=0:30:00,nodes=1:ppn=2
+#PBS -lwalltime=1:00:00,nodes=1:ppn=1
 
 # This script downloads OpenBLAS and R-3.1.1, and compiles
 # and installs R linked against an optimized version of OpenBLAS.
+# 2014-08-26, L. Voort <lykle.voort@surfsara.nl>
+#   - disable parallel make
 # 2014-08-21, L. Voort <lykle.voort@surfsara.nl>
 #   - added flags to use 2 cpu cores for compiling
 # 2014-08-21, L. Voort <lykle.voort@surfsara.nl>
@@ -26,6 +28,8 @@ fi
 
 # start in the user's home directory
 PREFIX=$HOME/opt/R-3.1.1
+MAKE_FLAGS=TARGET=BULLDOZER FC=gfortran PREFIX=$PREFIX \
+  NO_AFFINITY=1 NO_PARALLEL_MAKE=1
 
 (
 
@@ -35,8 +39,8 @@ cd r-build
 # build and install openblas
 git clone git://github.com/xianyi/OpenBLAS
 cd OpenBLAS
-make -j 2 TARGET=BULLDOZER FC=gfortran PREFIX=$PREFIX NO_AFFINITY=1
-make -j 2 TARGET=BULLDOZER FC=gfortran PREFIX=$PREFIX NO_AFFINITY=1 install
+make $MAKE_FLAGS 
+make $MAKE_FLAGS install
 cd ..
 
 # build and install R-3.1.1
@@ -50,7 +54,7 @@ FC=gfortran CFLAGS="-I$PREFIX/include"                            \
   --with-blas="-lopenblas" --with-lapack="-lopenblas"             \
   --with-x=no --with-readline=no
 
-make -j 2
+make
 make install
 cd ..
 
